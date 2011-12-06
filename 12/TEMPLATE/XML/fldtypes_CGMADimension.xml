@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FieldTypes>
+  <FieldType>
+    <Field Name="TypeName">CGMADimensionFieldType</Field>
+    <Field Name="ParentType">Text</Field>
+    <Field Name="TypeDisplayName">CGMA Dimension Field Type</Field>
+    <Field Name="TypeShortDescription">CGMA Dimension Field Type</Field>
+    <Field Name="UserCreatable">TRUE</Field>
+    <Field Name="Sortable">TRUE</Field>
+    <Field Name="AllowBaseTypeRendering">TRUE</Field>
+    <Field Name="Filterable">TRUE</Field>
+    <Field Name="FieldTypeClass">Aicpa.CGMA.SharePoint.Fields.CGMADimensionFieldType, Aicpa.CGMA.SharePoint.Fields.CGMADimension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f1d77f0a22f7a42b</Field>
+  </FieldType>
+</FieldTypes>
+
