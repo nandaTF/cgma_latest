@@ -40,8 +40,8 @@ namespace Aicpa.CGMA.SharePoint.Fields
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
             {
-                ((LinkButton)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((LinkButton)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).PostBackUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.UniqueId.ToString());
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.UniqueId.ToString());
                 lstDimensionsIndex++;
             }
             
@@ -61,8 +61,8 @@ namespace Aicpa.CGMA.SharePoint.Fields
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
             {
-                ((LinkButton)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((LinkButton)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).PostBackUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.Title);
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.Title);
                 lstDimensionsIndex++;
             }
             RenderChildren(output);
