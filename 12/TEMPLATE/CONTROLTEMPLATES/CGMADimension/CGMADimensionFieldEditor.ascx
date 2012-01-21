@@ -8,7 +8,7 @@
         </HeaderTemplate>
         <ItemTemplate>
             <span>
-                <asp:LinkButton ID="RptrDimensions_Refinements" runat="server"></asp:LinkButton></span><br />
+                <asp:HyperLink ID="RptrDimensions_Refinements" runat="server"></asp:HyperLink></span><br />
         </ItemTemplate>
     </asp:Repeater>
 </div>
