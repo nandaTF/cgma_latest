@@ -27,7 +27,12 @@ namespace Aicpa.CGMA.SharePoint.Fields
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
-            SPListItemCollection spLDimensionsList = SPContext.Current.Site.RootWeb.Lists["Topics"].Items;
+            //SPListItemCollection spLDimensionsList = SPContext.Current.Site.RootWeb.Lists["Topics"].Items;
+
+            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            SPQuery myQuery = new SPQuery();
+            myQuery.Query = "<OrderBy><FieldRef Name='Title'/></OrderBy>"; 
+            SPListItemCollection spLDimensionsList = splDimensions.GetItems(myQuery);
             
             CGMADimensionFieldEditorUC = (CGMADimensionFieldEditor)this.Parent.Page.LoadControl("~/_CONTROLTEMPLATES/CGMADimension/CGMADimensionFieldEditor.ascx");
             
@@ -52,7 +57,12 @@ namespace Aicpa.CGMA.SharePoint.Fields
         {
             EnsureChildControls();
 
-            SPListItemCollection spLDimensionsList = SPContext.Current.Site.RootWeb.Lists["Topics"].Items;
+            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            SPQuery myQuery = new SPQuery();
+            myQuery.Query = "<OrderBy><FieldRef Name='Title'/></OrderBy>";
+            
+            SPListItemCollection spLDimensionsList = splDimensions.GetItems(myQuery);
+
             CGMADimensionFieldEditorUC.RptrDimensions.DataSource = spLDimensionsList;
             CGMADimensionFieldEditorUC.RptrDimensions.DataBind();
 
@@ -67,8 +77,6 @@ namespace Aicpa.CGMA.SharePoint.Fields
             }
             RenderChildren(output);
         }
-
-        
     }
 }
 
