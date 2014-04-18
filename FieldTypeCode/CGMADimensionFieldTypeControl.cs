@@ -21,15 +21,19 @@ namespace Aicpa.CGMA.SharePoint.Fields
     {
         public CGMADimensionFieldType field;
         CGMADimensionFieldEditor CGMADimensionFieldEditorUC;
-
+        
         public CGMADimensionFieldTypeControl() { }
+        
+        public string SharepointListName { get; set; }
+        public string ListHeader { get; set; }
 
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
             //SPListItemCollection spLDimensionsList = SPContext.Current.Site.RootWeb.Lists["Topics"].Items;
 
-            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            //SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists[SharepointListName];
             SPQuery myQuery = new SPQuery();
             myQuery.Query = "<OrderBy><FieldRef Name='Title'/></OrderBy>"; 
             SPListItemCollection spLDimensionsList = splDimensions.GetItems(myQuery);
@@ -40,7 +44,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
             CGMADimensionFieldEditorUC.RptrDimensions.DataSource = spLDimensionsList;
             CGMADimensionFieldEditorUC.RptrDimensions.DataBind();
 
-            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = spLDimensionsList.List.Title;
+            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = ListHeader;
 
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
@@ -57,7 +61,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
         {
             EnsureChildControls();
 
-            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists[SharepointListName];
             SPQuery myQuery = new SPQuery();
             myQuery.Query = "<OrderBy><FieldRef Name='Title'/></OrderBy>";
             
@@ -66,7 +70,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
             CGMADimensionFieldEditorUC.RptrDimensions.DataSource = spLDimensionsList;
             CGMADimensionFieldEditorUC.RptrDimensions.DataBind();
 
-            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = spLDimensionsList.List.Title;
+            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = ListHeader;
 
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
