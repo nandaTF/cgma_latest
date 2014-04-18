@@ -4,8 +4,7 @@
     <asp:Repeater ID="RptrDimensions" runat="server">
         <HeaderTemplate>
             <b>
-                <span>Browse by topic</span>
-                <asp:Literal ID="RptrDimensions_Name" runat="server" visible="false"></asp:Literal></b><br />
+                <asp:Literal ID="RptrDimensions_Name" runat="server"></asp:Literal></b><br />
         </HeaderTemplate>
         <ItemTemplate>
             <span>
