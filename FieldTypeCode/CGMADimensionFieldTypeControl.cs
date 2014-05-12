@@ -21,6 +21,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
     {
         public CGMADimensionFieldType field;
         CGMADimensionFieldEditor CGMADimensionFieldEditorUC;
+        string strNavigateURL = string.Empty;
         
         public CGMADimensionFieldTypeControl() { }
         
@@ -45,16 +46,27 @@ namespace Aicpa.CGMA.SharePoint.Fields
             CGMADimensionFieldEditorUC.RptrDimensions.DataBind();
 
             ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = ListHeader;
+            
+            
+            if (ListHeader.ToLower().Equals("topics"))
+            {
+                strNavigateURL = "/_catalogs/masterpage/Search.aspx?DT=";
+            }
+            else if (ListHeader.ToLower().Equals("keywords"))
+            {
+                strNavigateURL = "/_catalogs/masterpage/Search.aspx?DK=";
+                ((HtmlGenericControl)(CGMADimensionFieldEditorUC.FindControl("TopicsManagement"))).Attributes.Add("class","TopicsManagement Keyword");
+            }
 
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
             {
                 ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.UniqueId.ToString());
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + HttpUtility.HtmlEncode(refinement.UniqueId.ToString());
                 lstDimensionsIndex++;
             }
             
-            this.Controls.Add(CGMADimensionFieldEditorUC);        
+            this.Controls.Add(CGMADimensionFieldEditorUC);
         }
 
         protected override void RenderFieldForDisplay(HtmlTextWriter output)
@@ -76,7 +88,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
             foreach (SPListItem refinement in spLDimensionsList)
             {
                 ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.Title);
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + HttpUtility.HtmlEncode(refinement.Title);
                 lstDimensionsIndex++;
             }
             RenderChildren(output);
