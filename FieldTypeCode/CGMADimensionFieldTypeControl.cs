@@ -48,7 +48,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
             ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = ListHeader;
             
             
-            if (ListHeader.ToLower().Equals("topics"))
+            if (ListHeader.ToLower().Contains("topics"))
             {
                 strNavigateURL = "/_catalogs/masterpage/Search.aspx?DT=";
             }
