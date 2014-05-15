@@ -62,7 +62,7 @@ namespace Aicpa.CGMA.SharePoint.Fields
             foreach (SPListItem refinement in spLDimensionsList)
             {
                 ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + HttpUtility.HtmlEncode(refinement.UniqueId.ToString());
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + refinement.UniqueId.ToString();
                 lstDimensionsIndex++;
             }
             
@@ -88,7 +88,9 @@ namespace Aicpa.CGMA.SharePoint.Fields
             foreach (SPListItem refinement in spLDimensionsList)
             {
                 ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + HttpUtility.HtmlEncode(refinement.Title);
+                string strRefinementVal = refinement.Title.ToString().Replace("&", "_amp_");
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + strRefinementVal;
+                //((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + HttpUtility.HtmlEncode(refinement.Title);
                 lstDimensionsIndex++;
             }
             RenderChildren(output);
