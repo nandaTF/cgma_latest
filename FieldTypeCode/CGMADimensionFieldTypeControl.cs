@@ -22,11 +22,35 @@ namespace Aicpa.CGMA.SharePoint.Fields
         public CGMADimensionFieldType field;
         CGMADimensionFieldEditor CGMADimensionFieldEditorUC;
         string strNavigateURL = string.Empty;
+        string _strSharepointListName = "Topics";
+        string _strListHeader = "Topics";
         
         public CGMADimensionFieldTypeControl() { }
-        
-        public string SharepointListName { get; set; }
-        public string ListHeader { get; set; }
+
+
+        public string SharepointListName
+        {
+            get
+            {
+                return _strSharepointListName;
+            }
+            set
+            {
+                _strSharepointListName = value;
+            }
+        }
+
+        public string ListHeader
+        {
+            get
+            {
+                return _strListHeader;
+            }
+            set
+            {
+                _strListHeader = value;
+            }
+        }
 
         protected override void CreateChildControls()
         {
