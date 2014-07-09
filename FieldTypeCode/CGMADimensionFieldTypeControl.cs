@@ -21,15 +21,44 @@ namespace Aicpa.CGMA.SharePoint.Fields
     {
         public CGMADimensionFieldType field;
         CGMADimensionFieldEditor CGMADimensionFieldEditorUC;
-
+        string strNavigateURL = string.Empty;
+        string _strSharepointListName = "Topics";
+        string _strListHeader = "Topics";
+        
         public CGMADimensionFieldTypeControl() { }
+
+
+        public string SharepointListName
+        {
+            get
+            {
+                return _strSharepointListName;
+            }
+            set
+            {
+                _strSharepointListName = value;
+            }
+        }
+
+        public string ListHeader
+        {
+            get
+            {
+                return _strListHeader;
+            }
+            set
+            {
+                _strListHeader = value;
+            }
+        }
 
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
             //SPListItemCollection spLDimensionsList = SPContext.Current.Site.RootWeb.Lists["Topics"].Items;
 
-            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            //SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists[SharepointListName];
             SPQuery myQuery = new SPQuery();
             myQuery.Query = "<OrderBy><FieldRef Name='Title'/></OrderBy>"; 
             SPListItemCollection spLDimensionsList = splDimensions.GetItems(myQuery);
@@ -40,24 +69,35 @@ namespace Aicpa.CGMA.SharePoint.Fields
             CGMADimensionFieldEditorUC.RptrDimensions.DataSource = spLDimensionsList;
             CGMADimensionFieldEditorUC.RptrDimensions.DataBind();
 
-            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = spLDimensionsList.List.Title;
+            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = ListHeader;
+            
+            
+            if (ListHeader.ToLower().Contains("topics"))
+            {
+                strNavigateURL = "/_catalogs/masterpage/Search.aspx?DT=";
+            }
+            else if (ListHeader.ToLower().Equals("keywords"))
+            {
+                strNavigateURL = "/_catalogs/masterpage/Search.aspx?DK=";
+                ((HtmlGenericControl)(CGMADimensionFieldEditorUC.FindControl("TopicsManagement"))).Attributes.Add("class","TopicsManagement Keyword");
+            }
 
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
             {
                 ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.UniqueId.ToString());
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + refinement.UniqueId.ToString();
                 lstDimensionsIndex++;
             }
             
-            this.Controls.Add(CGMADimensionFieldEditorUC);        
+            this.Controls.Add(CGMADimensionFieldEditorUC);
         }
 
         protected override void RenderFieldForDisplay(HtmlTextWriter output)
         {
             EnsureChildControls();
 
-            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists["Topics"];
+            SPList splDimensions = SPContext.Current.Site.RootWeb.Lists[SharepointListName];
             SPQuery myQuery = new SPQuery();
             myQuery.Query = "<OrderBy><FieldRef Name='Title'/></OrderBy>";
             
@@ -66,13 +106,15 @@ namespace Aicpa.CGMA.SharePoint.Fields
             CGMADimensionFieldEditorUC.RptrDimensions.DataSource = spLDimensionsList;
             CGMADimensionFieldEditorUC.RptrDimensions.DataBind();
 
-            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = spLDimensionsList.List.Title;
+            ((Literal)(CGMADimensionFieldEditorUC.RptrDimensions).Controls[0].FindControl("RptrDimensions_Name")).Text = ListHeader;
 
             int lstDimensionsIndex = 0;
             foreach (SPListItem refinement in spLDimensionsList)
             {
                 ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).Text = refinement.Title;
-                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = "/_catalogs/masterpage/Search.aspx?DT=" + HttpUtility.HtmlEncode(refinement.Title);
+                string strRefinementVal = refinement.Title.ToString().Replace("&", "_amp_");
+                ((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + strRefinementVal;
+                //((HyperLink)(CGMADimensionFieldEditorUC.RptrDimensions).Items[lstDimensionsIndex].FindControl("RptrDimensions_Refinements")).NavigateUrl = strNavigateURL + HttpUtility.HtmlEncode(refinement.Title);
                 lstDimensionsIndex++;
             }
             RenderChildren(output);
